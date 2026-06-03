@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Books</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+/* Smooth background */
+
+body{
+background:#f4f6fb;
+padding:40px;
+}
+
+/* Page title */
+
+h2{
+text-align:center;
+font-size:36px;
+color:#1f2937;
+margin-bottom:40px;
+font-weight:600;
+}
+
+/* Grid layout */
+
+.book-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:35px;
+max-width:1200px;
+margin:auto;
+}
+
+/* Book card */
+
+.book-card{
+background:white;
+border-radius:12px;
+padding:20px;
+text-align:center;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+transition:0.3s;
+border:1px solid #eee;
+}
+
+/* Hover */
+
+.book-card:hover{
+transform:translateY(-8px);
+box-shadow:0 18px 35px rgba(0,0,0,0.15);
+}
+
+/* Book image */
+
+.book-card img{
+width:100%;
+height:280px;
+object-fit:cover;
+border-radius:8px;
+transition:0.3s;
+}
+
+/* Image hover zoom */
+
+.book-card:hover img{
+transform:scale(1.05);
+}
+
+/* Book title */
+
+.book-card h4{
+margin-top:15px;
+font-size:18px;
+color:#374151;
+font-weight:500;
+}
+
+/* Links */
+
+a{
+text-decoration:none;
+color:inherit;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>📚 Books by {{ author }}</h2>
+
+<div class="book-grid">
+
+{% for book in books %}
+<div class="book-card">
+
+<a href="{{ url_for('book_detail', title=book.title) }}">
+<img src="{{ book.img if book.img.startswith('http') else url_for('static', filename=book.img) }}">
+</a>
+
+<h4>{{ book.title }}</h4>
+
+</div>
+{% endfor %}
+
+</div>
+
+</body>
+</html>

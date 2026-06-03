@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>BloomVerse - ML Powered Book Recommendation System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI', sans-serif;
+    scroll-behavior:smooth;
+    transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* ================= DARK MODE ================= */
+body.dark-mode{
+    background:#0f172a;
+    color:white;
+}
+
+/* ================= LIGHT MODE ================= */
+body.light-mode{
+    background:#f8fafc;
+    color:#111827;
+}
+
+/* ================= NAVBAR ================= */
+.navbar{
+    padding:20px 40px;
+}
+
+body.dark-mode .navbar{
+    background:transparent;
+}
+
+body.light-mode .navbar{
+    background:white;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+body.dark-mode .navbar-brand{
+    color:white;
+}
+
+body.light-mode .navbar-brand{
+    color:#111827;
+}
+
+/* ================= HERO ================= */
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    padding:80px 0;
+}
+
+body.dark-mode .hero{
+    background: radial-gradient(circle at top left,#1e1e2f,#0f172a 60%);
+}
+
+body.light-mode .hero{
+    background: linear-gradient(135deg,#f1f5f9,#e2e8f0);
+}
+
+.hero h1{
+    font-size:60px;
+    font-weight:800;
+    background: linear-gradient(90deg,#ffc107,#ff6a00);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+    font-size:20px;
+    margin-top:20px;
+    max-width:700px;
+}
+
+/* ================= BUTTONS ================= */
+.btn-main{
+    padding:12px 30px;
+    border-radius:50px;
+    font-weight:600;
+    margin:10px;
+    transition:0.3s;
+}
+
+.btn-main:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 20px rgba(255,193,7,0.4);
+}
+
+/* ================= SECTIONS ================= */
+.section{
+    padding:100px 20px;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:60px;
+    font-size:40px;
+    font-weight:700;
+}
+
+/* ================= CARDS ================= */
+.feature-card{
+    padding:30px;
+    border-radius:15px;
+    transition:0.3s;
+}
+
+body.dark-mode .feature-card{
+    background:rgba(255,255,255,0.05);
+}
+
+body.light-mode .feature-card{
+    background:white;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.feature-card:hover{
+    transform:translateY(-10px);
+}
+
+/* ================= CTA ================= */
+.cta{
+    text-align:center;
+    padding:80px 20px;
+}
+
+body.dark-mode .cta{
+    background:linear-gradient(90deg,#ffc107,#ff6a00);
+    color:black;
+}
+
+body.light-mode .cta{
+    background:linear-gradient(90deg,#facc15,#fb923c);
+    color:black;
+}
+
+/* ================= FOOTER ================= */
+footer{
+    padding:40px;
+    text-align:center;
+}
+
+body.dark-mode footer{
+    background:#0b1220;
+    color:#94a3b8;
+}
+
+body.light-mode footer{
+    background:#e5e7eb;
+    color:#374151;
+}
+
+/* ================= THEME TOGGLE ================= */
+.theme-toggle{
+    cursor:pointer;
+    font-size:20px;
+    border:none;
+    background:none;
+    color:inherit;
+}
+</style>
+</head>
+
+<body class="dark-mode">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand fw-bold" href="#">BloomVerse</a>
+
+    <div class="ms-auto d-flex align-items-center">
+        <button class="theme-toggle me-3" onclick="toggleTheme()">🌙</button>
+        <a href="{{ url_for('user_login') }}" class="btn btn-outline-secondary me-2">Login</a>
+        <a href="{{ url_for('register') }}" class="btn btn-warning">Get Started</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container">
+        <div class="row align-items-center">
+
+            <div class="col-md-6 text-center text-md-start">
+                <h1>ML Powered Smart Book Discovery</h1>
+                <p>
+                    BloomVerse is a Machine Learning based Book Recommendation System
+                    that uses user ratings, cosine similarity, and preference filtering
+                    to deliver intelligent, personalized suggestions.
+                </p>
+
+                <a href="{{ url_for('register') }}" class="btn btn-warning btn-main">
+                    Start Exploring
+                </a>
+
+                <a href="#features" class="btn btn-outline-secondary btn-main">
+                    Learn More
+                </a>
+            </div>
+
+            <div class="col-md-6 text-center mt-5 mt-md-0">
+                <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794"
+                     class="img-fluid rounded-4 shadow-lg"
+                     style="max-height:450px;">
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+    <h2 class="section-title">Why BloomVerse?</h2>
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <h4>🤖 ML Recommendation Engine</h4>
+                    <p>Collaborative filtering using cosine similarity for intelligent suggestions.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <h4>🔍 Smart Search + History</h4>
+                    <p>Real-time search with saved search history & live suggestions.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <h4>❤️ Wishlist & Reviews</h4>
+                    <p>Rate books, leave reviews, and manage your personalized wishlist.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <h4>⚙️ Preference-Based Filtering</h4>
+                    <p>Select favorite authors & genres for tailored recommendations.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <h4>📊 Academic Genre Filtering</h4>
+                    <p>Content filtering to remove unwanted genres for professional use.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <h4>📖 Book Preview & External Links</h4>
+                    <p>Integrated Google Books API, Amazon & OpenLibrary links.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- DATASET SECTION -->
+<section class="section">
+    <h2 class="section-title">About Our Dataset</h2>
+
+    <div class="container text-center">
+        <div class="row">
+
+            <div class="col-md-3 mb-4">
+                <div class="feature-card">
+                    <h2>📚 100,000+</h2>
+                    <p>Books from the GoodReads dataset.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="feature-card">
+                    <h2>⭐ Millions</h2>
+                    <p>User ratings used for ML-based recommendations.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="feature-card">
+                    <h2>🏷 20+ Genres</h2>
+                    <p>Includes Fiction, History, Science, Business, and more.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="feature-card">
+                    <h2>📊 Real Data</h2>
+                    <p>Title, Author, Ratings, Total Reviews & Genres included.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-5">
+            <div class="feature-card">
+                <h4>Dataset Source</h4>
+                <p>
+                    BloomVerse uses the <strong>GoodReads 100k Books Dataset</strong>
+                    to train and power its Machine Learning recommendation engine.
+                    The dataset includes book metadata, ratings, and popularity metrics,
+                    enabling collaborative filtering using cosine similarity.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- HOW IT WORKS -->
+<section class="section">
+    <h2 class="section-title">How It Works</h2>
+
+    <div class="container text-center">
+        <div class="row">
+
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <h4>1️⃣ User Interaction</h4>
+                    <p>User rates books and sets preferences.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <h4>2️⃣ ML Processing</h4>
+                    <p>System builds rating matrix & computes cosine similarity.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <h4>3️⃣ Smart Suggestions</h4>
+                    <p>Top similar books are recommended intelligently.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <h2>Ready to Discover Smarter with Machine Learning?</h2>
+    <p>Join BloomVerse today.</p>
+    <a href="{{ url_for('register') }}" class="btn btn-dark btn-main mt-3">Join Now</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    © 2026 BloomVerse | ML Based Book Recommendation System | Final Year AIML Project
+</footer>
+
+<script>
+function toggleTheme(){
+    const body = document.body;
+
+    if(body.classList.contains("dark-mode")){
+        body.classList.remove("dark-mode");
+        body.classList.add("light-mode");
+        localStorage.setItem("theme","light");
+        document.querySelector(".theme-toggle").innerHTML="☀";
+    }else{
+        body.classList.remove("light-mode");
+        body.classList.add("dark-mode");
+        localStorage.setItem("theme","dark");
+        document.querySelector(".theme-toggle").innerHTML="🌙";
+    }
+}
+
+window.onload = function(){
+    const savedTheme = localStorage.getItem("theme");
+    if(savedTheme === "light"){
+        document.body.classList.remove("dark-mode");
+        document.body.classList.add("light-mode");
+        document.querySelector(".theme-toggle").innerHTML="☀";
+    }
+}
+</script>
+
+</body>
+</html>

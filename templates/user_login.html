@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Login - BloomVerse</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:'Segoe UI', sans-serif;
+    overflow:hidden;
+    position:relative;
+    background:url('https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover;
+    animation: zoomBg 25s ease-in-out infinite alternate;
+}
+
+body::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.65);
+    z-index:0;
+}
+
+@keyframes zoomBg{
+    from{ transform: scale(1); }
+    to{ transform: scale(1.08); }
+}
+
+.login-card{
+    position:relative;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(18px);
+    padding:45px;
+    border-radius:25px;
+    width:380px;
+    color:white;
+    box-shadow:0 20px 50px rgba(0,0,0,0.8);
+    z-index:1;
+    transition:0.4s;
+}
+
+.login-card:hover{
+    transform: translateY(-5px);
+}
+
+.login-title{
+    font-weight:700;
+    letter-spacing:1px;
+}
+
+.form-control{
+    border-radius:50px;
+    padding:12px 20px;
+    border:none;
+}
+
+.form-control:focus{
+    box-shadow:0 0 15px rgba(255,193,7,0.9);
+}
+
+.btn-custom{
+    border-radius:50px;
+    padding:10px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.btn-custom:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 25px rgba(255,193,7,0.7);
+}
+
+.register-link a{
+    color:#ffc107;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.register-link a:hover{
+    text-decoration:underline;
+}
+/* Premium Toggle */
+.toggle-container{
+    display:flex;
+    background: rgba(255,255,255,0.1);
+    border-radius:50px;
+    padding:5px;
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+}
+
+.toggle-btn{
+    flex:1;
+    text-align:center;
+    padding:10px;
+    border-radius:50px;
+    text-decoration:none;
+    color:white;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.toggle-btn.active{
+    background:#ffc107;
+    color:black;
+    box-shadow:0 5px 15px rgba(255,193,7,0.6);
+}
+
+.toggle-btn:hover{
+    color:#ffc107;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-card text-center">
+
+<h3 class="login-title text-warning mb-4">Welcome Back 📚</h3>
+
+<!-- 🔥 NEW: USER / ADMIN TOGGLE -->
+<div class="toggle-container mb-4">
+    <a href="{{ url_for('user_login') }}" class="toggle-btn active">User</a>
+    <a href="{{ url_for('admin_login') }}" class="toggle-btn">Admin</a>
+</div>
+
+<!-- FLASH MESSAGES -->
+{% with messages = get_flashed_messages(with_categories=false) %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-warning">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<form method="POST" action="{{ url_for('user_login') }}">
+
+<input name="email" type="email" class="form-control mb-3" placeholder="Email Address" required>
+
+<input name="password" type="password" class="form-control mb-3" placeholder="Password" required>
+
+<button class="btn btn-warning btn-custom w-100">Login</button>
+
+<p class="text-end mt-2">
+    <a href="{{ url_for('forgot_password') }}" style="color:#ffc107; font-size:14px;">
+        Forgot Password?
+    </a>
+</p>
+
+</form>
+
+<br>
+
+<p class="register-link">
+New user? <a href="{{ url_for('register') }}">Create an account</a>
+</p>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Wishlist</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container mt-4">
+<h2>Wishlist Items</h2>
+
+<table class="table table-bordered">
+<tr>
+<th>User</th>
+<th>Book</th>
+</tr>
+
+{% for w in wishlist %}
+<tr>
+<td>{{ w[0] }}</td>
+<td>{{ w[1] }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+</html>

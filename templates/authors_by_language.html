@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Authors</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+/* Beautiful Soft Background */
+
+body{
+min-height:100vh;
+background:#f8fafc;
+background-image:
+radial-gradient(circle at 10% 20%, rgba(59,130,246,0.15), transparent 40%),
+radial-gradient(circle at 90% 80%, rgba(168,85,247,0.15), transparent 40%);
+display:flex;
+justify-content:center;
+align-items:center;
+padding:40px 0;
+}
+
+/* Container */
+
+.container{
+width:90%;
+max-width:1100px;
+text-align:center;
+}
+
+/* Title */
+
+h2{
+font-size:38px;
+margin-bottom:45px;
+color:#1e293b;
+font-weight:600;
+}
+
+/* Grid */
+
+.author-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:30px;
+}
+
+/* Card */
+
+.author-card{
+padding:30px;
+border-radius:14px;
+background:white;
+font-size:20px;
+font-weight:500;
+color:#334155;
+transition:0.3s;
+box-shadow:0 8px 20px rgba(0,0,0,0.05);
+border:1px solid #e2e8f0;
+}
+
+/* Hover */
+
+.author-card:hover{
+transform:translateY(-8px);
+box-shadow:0 18px 40px rgba(0,0,0,0.12);
+color:#2563eb;
+border-color:#2563eb;
+}
+
+/* Links */
+
+a{
+text-decoration:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>📚 Authors in {{ language }}</h2>
+
+<div class="author-grid">
+
+{% for author in authors %}
+<a href="{{ url_for('author_books', author=author) }}">
+<div class="author-card">
+{{ author }}
+</div>
+</a>
+{% endfor %}
+
+</div>
+
+</div>
+
+</body>
+</html>

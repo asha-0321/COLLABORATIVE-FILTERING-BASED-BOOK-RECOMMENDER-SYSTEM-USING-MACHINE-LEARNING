@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Profile | BloomVerse</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI', sans-serif;
+    background:#f4f6f9;
+}
+
+/* FULL PAGE */
+.full-page-layout{
+    display:flex;
+    min-height:100vh;
+}
+
+/* LEFT PANEL */
+.left-panel{
+    width:30%;
+    background:linear-gradient(135deg,#111827,#1f2937);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+
+.profile-section{
+    text-align:center;
+}
+
+.profile-img-wrapper{
+    position:relative;
+    display:inline-block;
+}
+
+.profile-img{
+    width:170px;
+    height:170px;
+    border-radius:50%;
+    object-fit:cover;
+    border:5px solid white;
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+.profile-img:hover{
+    transform:scale(1.05);
+}
+
+/* PHOTO MENU */
+.photo-menu{
+    display:none;
+    position:absolute;
+    top:190px;
+    left:50%;
+    transform:translateX(-50%);
+    background:white;
+    color:black;
+    border-radius:15px;
+    padding:10px;
+    width:220px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.25);
+    z-index:1000;
+}
+
+.photo-menu button{
+    width:100%;
+    border:none;
+    background:none;
+    padding:12px;
+    text-align:left;
+    border-radius:10px;
+    transition:0.2s;
+}
+
+.photo-menu button:hover{
+    background:#f3f4f6;
+}
+
+/* RIGHT PANEL */
+.right-panel{
+    width:70%;
+    padding:60px;
+    background:white;
+}
+
+/* STAT CARDS */
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+    margin-bottom:40px;
+}
+
+.stat-card{
+    background:#ffffff;
+    padding:25px;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.08);
+    transition:0.3s ease;
+}
+
+.stat-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 20px 45px rgba(0,0,0,0.12);
+}
+
+.stat-icon{
+    width:55px;
+    height:55px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    color:white;
+}
+
+.stat-card h3{
+    margin:0;
+    font-weight:700;
+}
+
+.stat-card p{
+    margin:0;
+    font-size:14px;
+    color:#6b7280;
+}
+
+/* DELETE CARD */
+.delete-card{
+    border:1px solid #fee2e2;
+}
+
+.delete-btn{
+    background:none;
+    border:none;
+    color:#dc2626;
+    font-weight:600;
+    padding:0;
+    transition:0.3s;
+}
+
+.delete-btn:hover{
+    color:#b91c1c;
+}
+
+/* REVIEW CARD */
+.review-card{
+    background:#f9fafb;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.05);
+    transition:0.3s;
+}
+
+.review-card:hover{
+    transform:translateY(-4px);
+}
+
+/* RESPONSIVE */
+@media(max-width:992px){
+    .full-page-layout{
+        flex-direction:column;
+    }
+    .left-panel, .right-panel{
+        width:100%;
+    }
+}
+/* BACK BUTTON */
+.back-btn{
+    position:fixed;
+    top:25px;
+    left:25px;
+    width:50px;
+    height:50px;
+    background:white;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    color:#111827;
+    text-decoration:none;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    transition:0.3s ease;
+    z-index:2000;
+}
+
+.back-btn:hover{
+    background:#111827;
+    color:white;
+    transform:scale(1.1);
+}
+</style>
+</head>
+
+<body>
+<a href="{{ url_for('explore') }}" class="back-btn">
+    <i class="bi bi-arrow-left"></i>
+</a>
+<div class="full-page-layout">
+
+
+    <!-- LEFT SIDE -->
+    <div class="left-panel">
+        <div class="profile-section">
+
+            <div class="profile-img-wrapper">
+
+                {% if user and user[3] %}
+                <img src="{{ url_for('static', filename='profile_images/' + user[3]) }}"
+                     class="profile-img"
+                     onclick="togglePhotoMenu()">
+                {% else %}
+                <img src="https://ui-avatars.com/api/?name={{ user[0] }}"
+                     class="profile-img"
+                     onclick="togglePhotoMenu()">
+                {% endif %}
+
+                <div class="photo-menu" id="photoMenu">
+                    <button onclick="viewPhoto()">
+                        <i class="bi bi-eye"></i> View Photo
+                    </button>
+
+                    <button onclick="document.getElementById('uploadInput').click()">
+                        <i class="bi bi-upload"></i> Upload Photo
+                    </button>
+
+                    <form action="{{ url_for('upload_profile_image') }}"
+                          method="POST"
+                          enctype="multipart/form-data">
+                        <input type="file"
+                               id="uploadInput"
+                               name="profile_image"
+                               hidden
+                               onchange="this.form.submit()">
+                    </form>
+
+                    <form action="{{ url_for('remove_profile_image') }}" method="POST">
+                        <button type="submit">
+                            <i class="bi bi-trash"></i> Remove Photo
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <h2 class="mt-4">{{ user[0] }}</h2>
+            <p><i class="bi bi-envelope"></i> {{ user[1] }}</p>
+            <p><i class="bi bi-telephone"></i> {{ user[2] }}</p>
+
+            <a href="{{ url_for('edit_profile') }}"
+               class="btn btn-light rounded-pill mt-3 px-4">
+               <i class="bi bi-pencil"></i> Edit Profile
+            </a>
+
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="right-panel">
+
+        <!-- STAT CARDS -->
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon bg-primary">
+                    <i class="bi bi-heart"></i>
+                </div>
+                <div>
+                    <h3>{{ wishlist_count }}</h3>
+                    <p>Wishlist</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon bg-warning">
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <div>
+                    <h3>{{ user_reviews|length }}</h3>
+                    <p>Reviews</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon bg-success">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <div>
+                    <h3 class="text-success">Active</h3>
+                    <p>Status</p>
+                </div>
+            </div>
+
+            <div class="stat-card delete-card">
+                <div class="stat-icon bg-danger">
+                    <i class="bi bi-trash"></i>
+                </div>
+                <div>
+                    <form action="{{ url_for('delete_account') }}"
+                          method="POST"
+                          onsubmit="return confirm('Are you sure? This action cannot be undone.')">
+                        <button class="delete-btn">
+                            Delete Account
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <!-- REVIEWS -->
+        <h4 class="mb-4">Recent Reviews</h4>
+
+        {% if user_reviews %}
+            {% for review in user_reviews %}
+            <div class="review-card">
+                <strong>{{ review[0] }}</strong>
+                <div class="text-warning mb-2">⭐ {{ review[1] }}/5</div>
+                <p class="mb-0">{{ review[2] }}</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No reviews yet.</p>
+        {% endif %}
+
+    </div>
+
+</div>
+
+<script>
+function togglePhotoMenu(){
+    let menu = document.getElementById("photoMenu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+function viewPhoto(){
+    let img = document.querySelector(".profile-img");
+    window.open(img.src);
+}
+
+document.addEventListener("click", function(event){
+    let wrapper = document.querySelector(".profile-img-wrapper");
+    let menu = document.getElementById("photoMenu");
+
+    if(!wrapper.contains(event.target)){
+        menu.style.display = "none";
+    }
+});
+</script>
+
+</body>
+</html>

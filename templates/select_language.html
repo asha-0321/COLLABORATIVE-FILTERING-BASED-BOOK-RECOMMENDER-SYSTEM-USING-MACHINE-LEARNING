@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Select Reading Language</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+/* Background */
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(135deg,#1d2b64,#f8cdda);
+}
+
+/* Main Container */
+
+.container{
+    width:90%;
+    max-width:1100px;
+    text-align:center;
+}
+
+/* Title */
+
+h2{
+    color:white;
+    font-size:40px;
+    margin-bottom:40px;
+    font-weight:600;
+}
+
+/* Grid */
+
+.language-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    gap:25px;
+}
+
+/* Card */
+
+.language-card{
+    padding:30px;
+    border-radius:15px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    color:white;
+    font-size:20px;
+    font-weight:500;
+    transition:all 0.3s ease;
+    border:1px solid rgba(255,255,255,0.3);
+    cursor:pointer;
+}
+
+/* Hover Effect */
+
+.language-card:hover{
+    transform: translateY(-8px) scale(1.05);
+    background:white;
+    color:#1d2b64;
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* Remove link underline */
+
+.a{
+    text-decoration:none;
+}
+.back-btn{
+position:absolute;
+top:25px;
+left:30px;
+
+color:white;
+text-decoration:none;
+
+border:1px solid rgba(255,255,255,0.4);
+padding:6px 16px;
+
+border-radius:20px;
+font-size:14px;
+
+background:rgba(255,255,255,0.05);
+transition:0.3s;
+}
+
+.back-btn:hover{
+background:white;
+color:#111;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <a href="{{ url_for('explore') }}" class="back-btn">
+← Back
+</a>
+
+<h2>🌍 Select Your Reading Language</h2>
+
+<div class="language-grid">
+
+{% for lang in languages %}
+<a href="{{ url_for('language_authors', language=lang) }}">
+    <div class="language-card">
+        {{ lang }}
+    </div>
+</a>
+{% endfor %}
+
+</div>
+
+</div>
+
+</body>
+</html>
