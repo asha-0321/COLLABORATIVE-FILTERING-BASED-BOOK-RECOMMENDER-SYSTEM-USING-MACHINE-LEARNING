@@ -28,9 +28,7 @@ This is my final year academic project. The system recommends books to users bas
 2. Install the required packages:
    ```bash
    pip install -r requirements.txt
-3.Run the application:
-  '''Bash 
+ 3.Run the application:
+  ```bash
    python app.py
-
-  ## Note
-This is an academic project. I am still improving my understanding of Machine Learning and Data concepts.
+ 
