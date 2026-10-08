@@ -31,3 +31,6 @@ This is my final year academic project. The system recommends books to users bas
 3.Run the application:
   '''Bash 
    python app.py
+
+  ## Note
+This is an academic project. I am still improving my understanding of Machine Learning and Data concepts.
